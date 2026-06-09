@@ -1,8 +1,8 @@
 openai>=1.40.0
 python-dotenv>=1.0.0
+psycopg[binary]>=3.2
+pgvector>=0.3.6
 
 # Added in later weeks:
 # fastapi
 # uvicorn
-# psycopg[binary]
-# pgvector
