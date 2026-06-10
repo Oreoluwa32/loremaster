@@ -23,8 +23,11 @@ GM_SYSTEM_PROMPT = (
 )
 
 MEMORY_BLOCK_HEADER = (
-    "Canon memories the player and you have established (use silently; do not "
-    "list them back to the player verbatim):"
+    "Canonical campaign facts established in earlier turns. Treat them as "
+    "TRUE. Do not contradict them, rename their NPCs, or invent alternative "
+    "versions. When answering a player's question about earlier events, "
+    "ground your reply in these facts rather than invented detail. Use them "
+    "silently; do not list them back to the player verbatim."
 )
 
 
@@ -92,7 +95,11 @@ class Session:
     @property
     def total_usage(self) -> Usage:
         """All tokens spent by this session: GM replies plus memory ops."""
-        return self.usage + self.extractor.usage
+        return (
+            self.usage
+            + self.extractor.usage
+            + self.store.consolidator.usage
+        )
 
     def reset(self) -> None:
         """Clear in-process history. Persisted memory is not deleted."""

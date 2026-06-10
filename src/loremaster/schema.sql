@@ -19,3 +19,18 @@ CREATE INDEX IF NOT EXISTS events_session_created_idx
 -- ivfflat (which needs to be built after bulk-loading representative data).
 CREATE INDEX IF NOT EXISTS events_embedding_cosine_idx
     ON events USING hnsw (embedding vector_cosine_ops);
+
+CREATE TABLE IF NOT EXISTS semantic_facts (
+    id                BIGSERIAL PRIMARY KEY,
+    session_id        TEXT        NOT NULL,
+    content           TEXT        NOT NULL,
+    embedding         vector(1024) NOT NULL,
+    source_event_ids  BIGINT[]    NOT NULL DEFAULT '{}',
+    created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS semantic_facts_session_created_idx
+    ON semantic_facts (session_id, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS semantic_facts_embedding_cosine_idx
+    ON semantic_facts USING hnsw (embedding vector_cosine_ops);
