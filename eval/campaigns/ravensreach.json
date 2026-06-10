@@ -1,0 +1,45 @@
+{
+  "id": "ravensreach",
+  "title": "The Ravensreach Affair",
+  "description": "A short investigative campaign. Several named NPCs, a hidden item, a betrayal, and an early promise made to a minor character. Designed so the probes at the end can only be answered correctly by recalling specific canon planted in early turns.",
+  "turns": [
+    "I arrive in the river-town of Ravensreach at dusk and step into the herbalist shop The Gilded Mortar. The owner introduces herself as Mira Ashfen, a half-elf alchemist with a pale scar across her left brow. She offers me a potion of clear-sight in exchange for retrieving a moonpetal flower from the Hollow Glade.",
+    "I leave the shop and head to the Whispering Hollow tavern to ask about the Glade. The innkeeper Bram Cole, a one-eyed retired sergeant, warns me that Lord Vance's brother-in-law Captain Olwen patrols the eastern road and stops every traveller.",
+    "Before I leave, a barmaid named Senna slips me a folded note saying her sister Kira was last seen near the Glade three nights ago. I promise Senna I will look for Kira while I'm out there.",
+    "On the eastern road Captain Olwen and two soldiers stop me. I bribe him with eight silver coins from my purse and he waves me through, muttering that 'the marshes have eyes'.",
+    "I reach the edge of the Hollow Glade by moonrise. The air smells of crushed mint and old iron. I see a single moonpetal blooming on a stone in the centre.",
+    "I take the moonpetal, wrap it in cloth, and turn back. As I leave, I find Kira asleep beside a fallen log, dazed but unharmed. She says a hooded figure spoke her name and made her forget the way home.",
+    "I bring Kira back to Ravensreach. At the tavern, Bram Cole quietly tells me that Lord Vance has fled north, accused of treason against the king's council.",
+    "I return to The Gilded Mortar to give Mira the moonpetal. She thanks me, hands me the promised potion of clear-sight in a small silver vial, and tells me to keep her name out of any official report."
+  ],
+  "probes": [
+    {
+      "question": "What was the herbalist's name, and what did she promise me in exchange for the moonpetal?",
+      "expected_facts": [
+        "the herbalist is Mira Ashfen",
+        "she promised a potion of clear-sight (delivered in a small silver vial)"
+      ]
+    },
+    {
+      "question": "I promised someone in the tavern that I would look for a missing person. Who was the person I made the promise to, and whose disappearance was I asked about?",
+      "expected_facts": [
+        "the promise was made to Senna (a barmaid)",
+        "she asked about her sister Kira"
+      ]
+    },
+    {
+      "question": "Who was the soldier blocking the eastern road, and how did I get past him?",
+      "expected_facts": [
+        "Captain Olwen blocked the road",
+        "I bribed him with silver coins (approximately eight)"
+      ]
+    },
+    {
+      "question": "What major piece of political news did the innkeeper share with me when I came back from the Glade?",
+      "expected_facts": [
+        "Lord Vance fled north",
+        "he was accused of treason against the king's council"
+      ]
+    }
+  ]
+}

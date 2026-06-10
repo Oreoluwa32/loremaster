@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from openai import OpenAI
 
 from .config import Settings, load_settings
-from .llm import chat, get_client
+from .llm import Usage, chat_with_usage, get_client
 from .memory import EpisodicStore, Memory, MemoryExtractor, RetrievalConfig
 
 log = logging.getLogger(__name__)
@@ -46,6 +46,7 @@ class Session:
     retrieval: RetrievalConfig = field(default_factory=RetrievalConfig)
     history: list[Message] = field(default_factory=list)
     last_retrieved: list[Memory] = field(default_factory=list)
+    usage: Usage = field(default_factory=Usage.zero)
 
     @classmethod
     def create(cls, settings: Settings | None = None, **overrides) -> "Session":
@@ -77,13 +78,21 @@ class Session:
         )
         messages = self._build_messages()
 
-        reply = chat(messages=messages, model=self.model, client=self.client)
+        reply, usage = chat_with_usage(
+            messages=messages, model=self.model, client=self.client
+        )
+        self.usage += usage
         self.history.append({"role": "assistant", "content": reply})
 
         if self.use_memory:
             self._extract_and_store(user_input, reply)
 
         return reply
+
+    @property
+    def total_usage(self) -> Usage:
+        """All tokens spent by this session: GM replies plus memory ops."""
+        return self.usage + self.extractor.usage
 
     def reset(self) -> None:
         """Clear in-process history. Persisted memory is not deleted."""

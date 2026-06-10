@@ -4,12 +4,12 @@ from __future__ import annotations
 
 import json
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from openai import OpenAI
 
 from ..config import Settings, load_settings
-from ..llm import get_client
+from ..llm import Usage, get_client
 
 log = logging.getLogger(__name__)
 
@@ -53,6 +53,7 @@ class MemoryExtractor:
 
     settings: Settings
     client: OpenAI
+    usage: Usage = field(default_factory=Usage.zero)
 
     @classmethod
     def create(cls, settings: Settings | None = None) -> "MemoryExtractor":
@@ -75,6 +76,12 @@ class MemoryExtractor:
             temperature=0.2,
         )
         raw = response.choices[0].message.content or "{}"
+
+        raw_usage = response.usage
+        self.usage += Usage(
+            prompt_tokens=getattr(raw_usage, "prompt_tokens", 0) or 0,
+            completion_tokens=getattr(raw_usage, "completion_tokens", 0) or 0,
+        )
 
         try:
             payload = json.loads(raw)
