@@ -17,6 +17,31 @@ services:
       timeout: 5s
       retries: 10
 
+  api:
+    build: .
+    image: loremaster-api:latest
+    container_name: loremaster-api
+    profiles: ["api"]
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      QWEN_API_KEY: ${QWEN_API_KEY}
+      QWEN_BASE_URL: ${QWEN_BASE_URL:-https://dashscope-intl.aliyuncs.com/compatible-mode/v1}
+      QWEN_GM_MODEL: ${QWEN_GM_MODEL:-qwen-plus}
+      QWEN_MEMORY_MODEL: ${QWEN_MEMORY_MODEL:-qwen-flash}
+      QWEN_EMBED_MODEL: ${QWEN_EMBED_MODEL:-text-embedding-v3}
+      QWEN_EMBED_DIM: ${QWEN_EMBED_DIM:-1024}
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-loremaster}
+      POSTGRES_USER: ${POSTGRES_USER:-loremaster}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-loremaster}
+      API_AUTH_TOKEN: ${API_AUTH_TOKEN:-}
+    ports:
+      - "${API_PORT:-8000}:8000"
+
 volumes:
   pgdata:
     name: loremaster-pgdata
